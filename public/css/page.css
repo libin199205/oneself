@@ -1,0 +1,29 @@
+/*分页样式*/
+.pagination li {
+    display: inline;
+}
+.pagination li span, .pagination li a {
+	font-size: 12px; 
+	padding: 4px 10px !important; 
+	border-style: solid; 
+	border-width: 1px; 
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); 
+	display: inline-block; 
+	line-height: 16px; 
+	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6); 
+	text-shadow: 0 1px 0 #ffffff;
+}
+
+.pagination li.active span {
+    background-image: -webkit-linear-gradient(top, #555555, #222222);
+}
+.pagination {display: inline-block; padding-left: 0; margin: 5px 0 2px; border-radius: 4px;}
+.pagination li.active span{background-color: #222222;color: #fff;}
+.pagination a{color: #000;}
+
+.pagination>.disabled>span{
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+}

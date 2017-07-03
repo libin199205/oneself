@@ -1,0 +1,197 @@
+<div class="layui-tab-item layui-show" style="width: 22%;float: left;">
+	<div class="layui-main">
+		<div class="">
+			<form class="layui-form">
+				<div class="layui-form-item">
+
+					<div>
+						<select name="possion_type_id" lay-filter="formSel" lay-search>
+							<option value="">所属品牌</option>
+							<option value="0">请选择品牌</option>
+								{volist name="brand" id='row'}
+									<option value="{$row.brand_id}" {if condition="$row['brand_id'] eq $Request.param.possion_type_id"}selected="selected"{/if}>{$row.brand_name}</option>
+								{/volist}
+						</select>
+					</div>
+				</div>
+
+
+				<div class="brand" style="display: inline-block; height: 450px; width: 100%; overflow: auto;">
+					<ul id="showPosi">
+						{volist name="position" id="pr"}
+							<li><a href="{:url('sys/power',['possion_type_id'=>$pr.possion_type_id,'possion_id'=>$pr.possion_id])}" {if condition="$pr.possion_id eq $Request.param.possion_id"}class="current"{/if} >{$pr.possion_name}（{$pr.possion_type_name}）</a></li>
+						{/volist}
+
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="layui-tab-item layui-show" style="width: 75%;float: left;">
+	<div class="layui-main">
+
+		<fieldset class="layui-elem-field">
+			<legend><span style="color: #ff3333;">{$current['possion_name'] ? $current['possion_name'].'('.$current['possion_type_name'].')':''}</span>授权管理</legend>
+			
+			<div class="layui-form-item">
+				
+			</div>
+
+			<form class="layui-form authorization" action="" method="post" id="myForm">
+				
+				<div style="padding-left: 3%;margin-top: 15px;">
+					<a href="javascript:;" onclick="checkAll()" class="layui-btn">全 选</a>
+					<a href="javascript:;" onclick="checkfalse()" class="layui-btn layui-btn-primary">全不选</a>
+				</div>
+
+				
+			<div class="shPer">
+				{volist name="power" id="row"}
+					<div class="module">
+						<span class="sp">
+							<input type="checkbox" name="power[]" value="{$row.id}" title="{$row.name}" lay-filter="allCheck"  {:in_array($row['id'],$currentPower) ? 'checked="checked"':''} >
+						</span>
+						<div style="margin-top: 10px;"></div>
+						<ul class="pr">
+							{volist name="row['sub']" id="v"}
+								<li><input lay-filter="oneCheck" value="{$v.id}" name="power[]" type="checkbox"  title="{$v.name}" {:in_array($v['id'],$currentPower) ? 'checked="checked"':''} ></li>
+							{/volist}
+						</ul>
+						<div style="clear:both"></div> 
+					</div>
+				{/volist}
+			</div>
+
+			<div class="layui-form-item">
+				<div style="padding-left: 3%;margin-top: 15px;">
+					<button class="layui-btn" lay-submit="" lay-filter="formPower">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+
+			</form>
+		</fieldset>
+
+	</div>
+</div>
+
+
+
+<style type="text/css">
+.brand ul{ padding:0; background:#fff}
+.brand li{font-size:12px;border-left:1px solid #ddd; border-bottom:1px solid #ddd; border-right:1px solid #ddd}
+.brand li a{ display:inline-block; height:100%; width:100%;color:#666; height:40px; line-height:40px; text-indent:2em;}
+.brand li a:hover{ background: #009999; color:#fff !important }
+.current{background: #009999; color:#fff !important}
+
+
+.module{margin: 15px; background: #f3f3f3; width: auto; padding: 10px 15px; border-radius: 5px;}
+.module ul li {float: left; width: 20%;line-height: 38px;}
+</style>
+
+<script type="text/javascript">
+layui.use('form', function(){
+	var $ = layui.jquery;
+	var form = layui.form();
+
+	// 选中父级，子集选中
+	form.on('checkbox(allCheck)', function(data){
+		var child = $(data.elem).parents('.module').find('ul li input[type="checkbox"]');
+		child.each(function(index, item){
+			item.checked = data.elem.checked;
+		});
+		form.render('checkbox');
+	});
+
+	// 选择子集，默认选中父级，子集全部取消，父级默认取消
+	form.on('checkbox(oneCheck)',function(e){
+		var chid = $(e.elem).parents('.module').find('ul li input[type="checkbox"]:checked').val();
+		if(chid)
+		{
+			$(e.elem).parents('.module').find("span.sp input").prop('checked',true);
+			$(e.elem).parents('.module').find('span.sp div').addClass('layui-form-checked');
+		}
+		else
+		{
+			$(e.elem).parents('.module').find("span.sp input").prop('checked',false);
+			$(e.elem).parents('.module').find('span.sp div').removeClass('layui-form-checked');
+		}
+	});
+
+	// 根据品牌查出职位
+	form.on('select(formSel)',function(d){
+		$.ajax({
+			url:"{:url('sys/power')}",
+				type:'post',
+				data:{'possion_type_id':d.value},
+				dataType:"json",
+				success: function(t){
+					var l='';
+					for(i in t){
+						l+='<li><a href="/lib/sys/power/possion_type_id/'+t[i].possion_type_id+'/possion_id/'+t[i].possion_id+'.html" >'+t[i].possion_name+'('+t[i].possion_type_name +')</a></li>'
+					}
+					$('#showPosi').html(l);
+				}
+		});
+	});
+
+	// 执行修改操作
+	form.on('submit(formPower)',function(){
+		var possion_id="{$Request.param.possion_id}" ? "{$Request.param.possion_id}":0;
+		if (possion_id==0) {
+			dialog.error('请选择职位授权');
+			return false;
+		}
+
+		//授权分类查看权限
+		var limit=$('.shPer :checkbox').map(function() {
+				if(this.checked==true)
+					return this.value;
+			}).get().join(',');
+
+		$.ajax({
+			url:"{:url('sys/setpower')}",
+			data:{possion_id:possion_id,limit:limit},
+			type:'post',
+			dataType:"json",
+			success: function(e){
+				if(e.code == 0){
+					layer.msg(e.msg, {icon: 5}, function(){
+
+					});
+				} else {
+					layer.msg(e.msg, {icon: 1,time: 1500,shade: 0.1}, function(){
+						window.location.href=e.url;
+					});
+				}
+			}
+		});
+		return false;
+	});
+
+});
+
+
+function checkAll()
+{
+	$('.shPer').find('input:checkbox').each(function(index, element) {
+		this.checked=true;
+		if(this.checked==true){
+			$(this).siblings('div').addClass('layui-form-checked');
+		}
+	});
+}
+
+function checkfalse()
+{
+	$('.shPer').find('input:checkbox').each(function(index, element) {
+		this.checked=false;
+		if(this.checked==false){
+			$(this).siblings('div').removeClass('layui-form-checked');
+		}
+	});
+}
+
+</script>

@@ -1,0 +1,35 @@
+{include file="public/header2" /}
+<fieldset class="layui-elem-field">
+	<legend>品牌添加</legend>
+	<div class="layui-field-box">
+	<form class="layui-form" action="" method="post" id="myForm">
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">品牌名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="brand_name" lay-verify="required" placeholder="请输入品牌名称" autocomplete="off" class="layui-input" value="{$brand.brand_name}">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<input type="hidden" name="sid" value="{$brand.brand_id}">
+				<button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	</div>
+</fieldset>
+
+</div>
+</div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+var brandUrl = "{:url('sys/brand_edit')}";	// 品牌修改
+</script>
+
+<script src="__JS__/lib/brand.js" charset="utf-8"></script>

@@ -1,0 +1,47 @@
+{include file="public/header2" /}
+<fieldset class="layui-elem-field">
+	<legend>职位添加</legend>
+	<div class="layui-field-box">
+	<form class="layui-form" action="" method="post" id="myForm">
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">职位名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="possion_name" lay-verify="required" placeholder="请输入职位名称" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属品牌</label>
+			<div class="layui-input-block">
+				<select name="possion_type_id" id="pyname" lay-search>
+					<option value="">请选择品牌</option>
+					<option value="0">请选择品牌</option>
+					{volist name="brand" id='row'}
+						<option value="{$row.brand_id}" data-pyname="{$row.brand_name}">{$row.brand_name}</option>
+					{/volist}
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<input type="hidden" name="pyname" value="" id="posname">
+				<button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+	</div>
+</fieldset>
+
+</div>
+</div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+var PositionUrl = "{:url('sys/position_add')}";	// 职位添加
+</script>
+<script src="__JS__/lib/position.js" charset="utf-8"></script>

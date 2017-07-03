@@ -1,0 +1,60 @@
+<div class="layui-tab-item layui-show">
+	<div class="layui-main">
+	<blockquote class="layui-elem-quote">职位数量: {:count($position)}个</blockquote>
+</div>
+
+<div class="layui-tab-item layui-show" style="width: 100%;overflow: auto;">
+	<div class="layui-main" style="margin-top: 0px;">
+		<fieldset class="layui-elem-field">
+			<legend>管理员列表</legend>
+			<div class="layui-field-box">
+				<div class="layui-form" >
+					<table class="layui-table">
+						<colgroup>
+							<col width="50">
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+								<th>职位ID</th>
+								<th>职位名称</th>
+								<th>所属品牌</th>
+								<th>设置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="layui-btn layui-btn-mini" onclick="addPosition()">新建职位</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="position" id="row"}
+							<tr>
+								<td><input type="checkbox" name="" lay-skin="primary" value="{$row.possion_id}"></td>
+								<td>{$row.possion_id}</td>
+								<td>{$row.possion_name}</td>
+								<td>{$row.possion_type_name}</td>
+								<td>
+									<div class="layui-btn-group">
+										<button class="layui-btn layui-btn-small" onclick="savePosition('{$row.possion_id}')"><i class="layui-icon"></i> 编辑</button>
+										<button class="layui-btn layui-btn-small layui-btn-normal" onclick="delPosition('{$row.possion_id}','{$row.possion_name}（{$row.possion_type_name}）')"><i class="layui-icon"></i> 删除</button>
+									</div>
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					{$page}
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+<script type="text/javascript">
+var positionAdd = "{:url('sys/position_add')}";	// 品牌添加
+var positionSave = "{:url('sys/position_edit')}";	// 品牌修改
+var positionDel = "{:url('sys/position_del')}";	// 品牌删除
+</script>
+
+<script src="__JS__/lib/position.js" charset="utf-8"></script>

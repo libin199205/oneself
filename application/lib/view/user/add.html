@@ -1,0 +1,76 @@
+<div class="layui-tab-item layui-show">
+	<div class="layui-main">
+
+		<fieldset class="layui-elem-field">
+			<legend>管理员添加</legend>
+			<div class="layui-field-box">
+
+			<form class="layui-form" action="" method="post" id="myForm">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">管理员名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="username" lay-verify="required" placeholder="请输入管理员名称" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">管理员邮箱</label>
+					<div class="layui-input-block">
+						<input type="text" name="email" lay-verify="email" placeholder="请输入管理员邮箱" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">手机号码</label>
+					<div class="layui-input-block">
+						<input type="text" name="phone" lay-verify="phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">管理员密码</label>
+					<div class="layui-input-block">
+						<input type="password" name="password" lay-verify="required" placeholder="请输入管理员密码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">确认密码</label>
+					<div class="layui-input-block">
+						<input type="password" name="repassword" lay-verify="required" placeholder="请输入确认密码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">权限</label>
+					<div class="layui-input-block">
+						<select name="position_id" id="psname" lay-search>
+							<option value="">请选择权限</option>
+							<option value="0">请选择权限</option>
+							{volist name="position" id='row'}
+								<option value="{$row.possion_id}" data-poname="{$row.possion_name}({$row.possion_type_name})">{$row.possion_name}（{$row.possion_type_name}）</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<input type="hidden" name="posname" value="" id="poname">
+						<button class="layui-btn" lay-submit="" lay-filter="formDemo">立即提交</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+var userUrl = "{:url('user/add')}";		// 添加操作
+var staForm = '1';
+</script>
+<script src="__JS__/lib/user.js" charset="utf-8"></script>

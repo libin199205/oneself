@@ -1,0 +1,130 @@
+<div class="layui-tab-item layui-show">
+	<div class="layui-main">
+	<blockquote class="layui-elem-quote">管理员: {$count} 人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;正常: {$rest}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;异常: {$norest}</blockquote>
+
+
+	<form method="get" action="" class="layui-form">
+	
+		<div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input class="layui-input" type="text" name="username" value="{$Think.get.username}"  placeholder="管理员名称" >
+			</div>
+
+			<div class="layui-input-inline">
+				<input class="layui-input" type="text" name="email" value="{$Think.get.email}"  placeholder="管理员邮箱" >
+			</div>
+
+			<div class="layui-input-inline">
+				<input class="layui-input" type="text" name="phone" value="{$Think.get.phone}"  placeholder="手机号码" >
+			</div>
+
+			<div class="layui-input-inline">
+				<select name="position">
+					<option value="">请选择职位</option>
+					<option value="0" >请选择职位</option>
+					{volist name="potion" id="pr"}
+						<option value="{$pr.possion_id}" {if condition="$Think.get.position eq $pr['possion_id']"}selected='selected'{/if} >{$pr.possion_name}({$pr.possion_type_name})</option>
+					{/volist}
+				</select>
+			</div>
+
+			<div class="layui-input-inline">
+				<select name="status">
+					<option value="">请选择状态</option>
+					<option value="0">请选择状态</option>
+					<option value="1" {if condition="$Think.get.status eq 1"}selected='selected'{/if}>正常</option>
+					<option value="2" {if condition="$Think.get.status eq 2"}selected='selected'{/if}>异常</option>
+				</select>
+			</div>
+
+			<div class="layui-input-inline">
+				<button class="layui-btn" lay-submit="" lay-filter="">筛选</button>
+			</div>
+		</div>
+	</form>
+	</div>
+</div>
+
+
+<div class="layui-tab-item layui-show" style="width: 100%;overflow: auto;">
+	<div class="layui-main" style="margin-top: 0px;">
+		<fieldset class="layui-elem-field">
+			<legend>管理员列表</legend>
+			<div class="layui-field-box">
+				<div class="layui-form" >
+					<table class="layui-table">
+						<colgroup>
+							<col width="50">
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+								<th>管理员名称</th>
+								<th>管理员邮箱</th>
+								<th>手机号码</th>
+								<th>职位</th>
+								<th>登录IP</th>
+								<th>登录时间</th>
+								<th>状态</th>
+								<th>登数</th>
+								<th>设置</th>
+							</tr> 
+						</thead>
+
+
+						<tbody>
+							{volist name="lists" id="row"}
+							<tr>
+								<td><input type="checkbox" name="" lay-skin="primary" value="{$row.id}"></td>
+								<td>{$row.username}</td>
+								<td>{$row.email}</td>
+								<td>{$row.phone}</td>
+								<td>{$row.position_name}</td>
+								<td>{$row.last_login_ip}</td>
+								<td>{if condition="$row['last_login_time'] neq 0"}{:date('Y-m-d H:i:s',$row['last_login_time'])}{/if}</td>
+								<td>
+									{if condition="$row.status eq 1"}
+										<i class="layui-icon" style="color:green;"></i>
+									{else/}
+										<i class="layui-icon" style="color:red;">ဇ</i>
+									{/if}
+								</td>
+								<td>{$row.login_num}</td>
+								<td>
+									<div class="layui-btn-group">
+										<button class="layui-btn layui-btn-small" onclick="saveInfo('{$row.id}')"><i class="layui-icon"></i> 编辑</button>
+
+										{if condition="$row.status eq 1"}
+											<button class="layui-btn layui-btn-small layui-btn-normal" onclick="savestatus('{$row.id}','{$row.username}','1')"><i class="layui-icon"></i> 删除</button>
+										{else/}
+											<button class="layui-btn layui-btn-small layui-btn-danger" onclick="savestatus('{$row.id}','{$row.username}','2')"><i class="layui-icon"></i> 正常</button>
+										{/if}
+
+									</div>
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+
+					{$page}
+
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+<script>
+var saveSta = "{:url('user/savestatus')}";		// 修改管理员状态
+var saveInf = "{:url('user/save')}";			// 弹出层 修改管理员
+</script>
+<script src="__JS__/lib/user.js" charset="utf-8"></script>

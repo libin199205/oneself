@@ -1,0 +1,26 @@
+/* ChaoX admin */
+
+html {color: #333; }
+html body {overflow: auto;}
+
+/* 主体 */
+.admin-login {
+	height: auto;
+    background: url(../img/bg.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #009688;
+}
+.admin-login-main {width: 760px;min-height:200px;margin: 10% auto 0;color: rgba(255,255,255,.95);font-size: 0}
+.login-box-left {position: relative;display: inline-block;vertical-align: top;width: 450px;font-size: 14px;}
+.login-info .info-title {margin-bottom: 15px;}
+.login-info .info-title h1 {font-size: 30px;font-weight: 100;}
+.login-info h4 {font-size: 14px;font-weight: 600}
+.login-info .info-list {list-style: none;padding: 0;margin: 20px 0;}
+.login-box-right {position: relative;display: inline-block;vertical-align: top;width: 300px;margin-left: 10px;font-size: 14px;}
+.login-box-right .login-form {background: rgba(255,255,255,.2);border: 1px solid rgba(255,255,255,.3);-moz-box-shadow: 0 3px 0 rgba(12,12,12,.03);-webkit-box-shadow: 0 3px 0 rgba(12,12,12,.03);box-shadow: 0 3px 0 rgba(12,12,12,.03);-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;padding: 30px}
+.login-box-right .login-form .title {margin-bottom: 15px;}
+.login-box-bottom {border-top: solid 1px rgba(255,255,255,.3);margin: 20px 0;padding-top: 15px;font-size:14px;}
+.login-box-bottom p {color: rgba(255,255,255,.95);}

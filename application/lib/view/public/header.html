@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LiebCMS内容管理系统</title>
+<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="shortcut icon" href="__IMG__/link.jpg" type="image/png" />
+	<link rel="stylesheet" href="__JS__/layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="__CSS__/global.css" media="all">
+	<link rel="stylesheet" href="__CSS__/page.css" media="all">
+
+	<script src="__JS__/jquery.min.js" charset="utf-8"></script>
+	<script src="__JS__/layui/layui.js" charset="utf-8"></script>
+	<script src="__JS__/global.js" charset="utf-8"></script>
+	<script src="__JS__/base.js" charset="utf-8"></script>
+	<script src="__JS__/dialog.js" charset="utf-8"></script>
+</head>
+<body>
+
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-header header header-demo">
+		<div class="layui-main">
+			<a class="logo" href="/">
+				<img src="__IMG__/logo.png" alt="layui">
+			</a>
+			<ul class="layui-nav">
+				<li class="layui-nav-item">
+					<a href="javascript:;" class="admin-header-user">{:session('admin.username')}，欢迎您！</a>
+					<dl class="layui-nav-child"> <!-- 二级菜单 -->
+						<dd><a href="{:url('login/logout')}" onclick="javascript:if(confirm('是否退出系统？')){return ture;}else{return false;}">退出</a></dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="layui-side layui-bg-black">
+		<div class="layui-side-scroll">
+
+			<ul class="layui-nav layui-nav-tree">
+				
+				{if condition="strtolower($troller) eq 'index'"}
+					<li class="layui-nav-item" style="border-left:5px solid #009688">
+				{else/}
+					<li class="layui-nav-item">
+				{/if}
+					<a href="{:url('index/index')}">首页</a>
+				</li>
+
+
+				{volist name="menu" id="row"}
+					{if condition="strtolower($troller) eq $row['link']"}
+						<li class="layui-nav-item layui-nav-itemed">
+					{else/}
+						<li class="layui-nav-item">
+					{/if}
+						<a href="javascript:;">{$row.name}</a>
+
+						{if condition="isset($row['sub'])"}
+							<dl class="layui-nav-child">
+								{volist name="row['sub']" id="rs"}
+									{if condition="$tSign eq strtolower($rs['link'])"}
+										<dd class="layui-this">
+									{else/}
+										<dd>
+									{/if}
+									<a href="{:url($rs['link'])}">{$rs.name}</a></dd>
+								{/volist}
+							</dl>
+						{/if}
+					</li>
+				{/volist}
+
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="layui-tab layui-tab-brief" lay-filter="demoTitle">
+		<!-- <ul class="site-demo-title" style="line-height: 40px;padding: 0 10px;">
+			<li><i class="layui-icon" style="font-size: 20px;">&#xe61c;</i>&nbsp;&nbsp;网站首页
+				{foreach name="crmNav" item="row"}
+					{if condition="$row eq ''"}
+						> 首页
+					{else/}
+						> {$row.name}
+					{/if}
+				{/foreach}
+			</li>
+		</ul> -->
+
+		<span class="layui-breadcrumb site-demo-title" style="line-height: 40px;padding: 0 10px;">
+			<i class="layui-icon" style="font-size: 18px;">&#xe61c;</i>
+			<a href="{:url('index/index')}">&nbsp;&nbsp;网站首页</a>
+
+			{volist name="crmNav" id="row"}
+				{if condition="$row eq ''"}
+					<a href="{:url('index/index')}">首页</a>
+				{else/}
+					{if condition="$row['pid'] neq 0"}
+						<a href='{:url("$row[link]")}'>
+					{else/}
+						<a href='javascript:;'>
+					{/if}{$row.name}</a>
+				{/if}
+			{/volist}
+		</span>
+
+		<div class="layui-body layui-tab-content site-demo site-demo-body">

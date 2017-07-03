@@ -1,0 +1,58 @@
+<div class="layui-tab-item layui-show">
+	<div class="layui-main">
+	<blockquote class="layui-elem-quote">品牌数量: {:count($brand)}个</blockquote>
+</div>
+
+<div class="layui-tab-item layui-show" style="width: 100%;overflow: auto;">
+	<div class="layui-main" style="margin-top: 0px;">
+		<fieldset class="layui-elem-field">
+			<legend>管理员列表</legend>
+			<div class="layui-field-box">
+				<div class="layui-form" >
+					<table class="layui-table">
+						<colgroup>
+							<col width="50">
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+								<th>品牌ID</th>
+								<th>品牌名称</th>
+								<th>设置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="layui-btn layui-btn-mini" onclick="addBrand()">新建品牌</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="brand" id="row"}
+							<tr>
+								<td><input type="checkbox" name="" lay-skin="primary" value="{$row.brand_id}"></td>
+								<td>{$row.brand_id}</td>
+								<td>{$row.brand_name}</td>
+								<td>
+									<div class="layui-btn-group">
+										<button class="layui-btn layui-btn-small" onclick="saveBrand('{$row.brand_id}')"><i class="layui-icon"></i> 编辑</button>
+										<button class="layui-btn layui-btn-small layui-btn-normal" onclick="delBrand('{$row.brand_id}','{$row.brand_name}')"><i class="layui-icon"></i> 删除</button>
+									</div>
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					{$page}
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+<script type="text/javascript">
+var brandAdd = "{:url('sys/brand_add')}";	// 品牌添加
+var brandSave = "{:url('sys/brand_edit')}";	// 品牌修改
+var brandDel = "{:url('sys/brand_del')}";	// 品牌删除
+</script>
+
+<script src="__JS__/lib/brand.js" charset="utf-8"></script>
